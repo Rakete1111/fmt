@@ -458,8 +458,12 @@ template <typename Char>
 inline basic_string_view<Char>
   to_string_view(const std::basic_string<Char> &s) { return s; }
 
-template <typename Char>
-inline basic_string_view<Char> to_string_view(const Char *s) { return s; }
+template <typename Char,
+          typename Enable = typename std::enable_if<std::is_convertible<
+              const Char *, basic_string_view<Char>>::value>>
+inline basic_string_view<Char> to_string_view(const Char *s) {
+  return s;
+}
 
 #ifdef FMT_STRING_VIEW
 template <typename Char>
